@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  bootstrapper:
+    image: ggpwnkthx/docker-cli:latest
+    configs:
+      - source: entrypoint
+        target: /bin/entrypoint.sh
+        mode: 0700
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+      restart_policy:
+        condition: on-failure
+    entrypoint: /bin/entrypoint.sh
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+configs:
+  entrypoint:
+    file: ./entrypoint.sh
